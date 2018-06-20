@@ -1,31 +1,16 @@
-# dehydrated [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=23P9DSJBTY7C8)
+# dnsExit 
 
-![](docs/logo.jpg)
 
-Dehydrated is a client for signing certificates with an ACME-server (e.g. Let's Encrypt) implemented as a relatively simple (zsh-compatible) bash-script.
-This client supports both ACME v1 and the new ACME v2 including support for wildcard certificates!
+This a hook for the Let's Encrypt ACME client dehydrated (formerly letsencrypt.sh), that enables using DNS records on dnsexit.com to respond to dns-01 challenges. 
 
-It uses the `openssl` utility for everything related to actually handling keys and certificates, so you need to have that installed.
+It's a bash script composed of the following files
+- base.sh (this is an utility file that is used by authorization.sh and cleanup.sh)
+- authorization.sh (this script add the dns text record to dnsexit and check that it was succesfully added)
+- cleanup.sh (this script delete the created dns textrecord)
+- config.sh (this script is for setting the dnsExit.com credentials)
 
-Other dependencies are: cURL, sed, grep, awk, mktemp (all found pre-installed on almost any system, cURL being the only exception).
+How to use it
+ # Update the config.sh with your dnsexit.com credentials
+ # Call the certbot command using the required parameters: example for renew: certbot renew --force-renew --break-my-certs --staging --agree-tos --email youremail@server.com --manual --preferred-challenges dns  --manual-auth-hook ./authenticator.sh --manual-cleanup-hook ./cleanup.sh
 
-Current features:
-- Signing of a list of domains (including wildcard domains!)
-- Signing of a custom CSR (either standalone or completely automated using hooks!)
-- Renewal if a certificate is about to expire or defined set of domains changed
-- Certificate revocation
-
-Please keep in mind that this software, the ACME-protocol and all supported CA servers out there are relatively young and there might be a few issues. Feel free to report any issues you find with this script or contribute by submitting a pull request,
-but please check for duplicates first (feel free to comment on those to get things rolling).
-
-## Getting started
-
-For getting started I recommend taking a look at [docs/domains_txt.md](docs/domains_txt.md), [docs/wellknown.md](docs/wellknown.md) and the [Usage](#usage) section on this page (you'll probably only need the `-c` option).
-
-Generally you want to set up your WELLKNOWN path first, and then fill in domains.txt.
-
-**Please note that you should use the staging URL when experimenting with this script to not hit Let's Encrypt's rate limits.** See [docs/staging.md](docs/staging.md).
-
-If you have any problems take a look at our [Troubleshooting](docs/troubleshooting.md) guide.
-
-## Config
+I hope this script is useful for the comunity, if you have any comments or suggestions contact me at: jpconver@gmail.com
