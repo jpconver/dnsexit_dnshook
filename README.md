@@ -14,4 +14,4 @@ This a hook for the Let's Encrypt ACME client dehydrated (formerly letsencrypt.s
   - certbot renew --force-renew --break-my-certs --staging --agree-tos --email youremail@server.com --manual --preferred-challenges dns  --manual-auth-hook ./authenticator.sh --manual-cleanup-hook ./cleanup.sh
 
 
-I hope this script is useful for the community, if you have any comments or suggestions contact me at: jpconver@gmail.com
+I hope this script is useful for the community, if you have any comments or suggestions contact me
