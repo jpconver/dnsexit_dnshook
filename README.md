@@ -11,7 +11,7 @@ This a hook for the Let's Encrypt ACME client dehydrated (formerly letsencrypt.s
 **How to use it**
 - Update the config.sh with your dnsexit.com credentials
 - Call the certbot command using the required parameters (renew example)
- - certbot renew --force-renew --break-my-certs --staging --agree-tos --email youremail@server.com --manual --preferred-challenges dns  --manual-auth-hook ./authenticator.sh --manual-cleanup-hook ./cleanup.sh
+  - certbot renew --force-renew --break-my-certs --staging --agree-tos --email youremail@server.com --manual --preferred-challenges dns  --manual-auth-hook ./authenticator.sh --manual-cleanup-hook ./cleanup.sh
 
 
 I hope this script is useful for the community, if you have any comments or suggestions contact me at: jpconver@gmail.com
