@@ -1,4 +1,4 @@
-# dnsExit certboot hook bash script
+# dnsExit certbot hook bash script
 
 This a hook for the Let's Encrypt ACME client dehydrated (formerly letsencrypt.sh), that enables using DNS records on dnsexit.com to respond to dns-01 challenges. It requires to have dig installed (sudo apt-get install dnsutils)
 
