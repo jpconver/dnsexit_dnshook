@@ -10,7 +10,7 @@ It's a bash script composed of the following files
 - config.sh (this script is for setting the dnsExit.com credentials)
 
 How to use it
- # Update the config.sh with your dnsexit.com credentials
- # Call the certbot command using the required parameters: example for renew: certbot renew --force-renew --break-my-certs --staging --agree-tos --email youremail@server.com --manual --preferred-challenges dns  --manual-auth-hook ./authenticator.sh --manual-cleanup-hook ./cleanup.sh
+ - Update the config.sh with your dnsexit.com credentials
+ - Call the certbot command using the required parameters: example for renew: certbot renew --force-renew --break-my-certs --staging --agree-tos --email youremail@server.com --manual --preferred-challenges dns  --manual-auth-hook ./authenticator.sh --manual-cleanup-hook ./cleanup.sh
 
 I hope this script is useful for the comunity, if you have any comments or suggestions contact me at: jpconver@gmail.com
