@@ -8,9 +8,14 @@ function getDnsExitDomain () {
   local domainListPage=$3
 
   # get comma separated list of domains in dnseExit
-  grepCommand="grep -Pzo <a.class=\"alink\".href=\"(.*?)\".title=\"Domain.Panel\".>\K(.*?)</a> $domainListPage"
+  regex="href=\'/DomainPanel.sv\\?domainname=\K(.*?)'"
+  grepCommand="grep -Po ${regex} ${domainListPage}"
+
+  # remove quotes, carry returns and the last character
   domains=`${grepCommand}`
-  domains="${domains//"</a>"/,}"
+  domains="${domains//"'"/,}"
+  domains="${domains//$'\n'/}"
+  domains="${domains%?}"
 
   # convert dnsExit domain list to map
   declare -A dnsExitDomainMap
