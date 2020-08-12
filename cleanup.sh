@@ -14,8 +14,12 @@ txtName="_acme-challenge.${fullDomain/$baseDomain/}"
 txtValue="${validation}"
 token="10d56a723037e3ff850edb5ce6878dd9^1920:1080|1855:1056|24:24^^180"
 
+# get login page
+curl -s -D - -X GET -c ${cookiesFile} "https://www.dnsexit.com/Direct.sv?cmd=login" > "/tmp/dnsExitLoginForm.html"
+
 # login
-curl -s -D - -X POST --data "login=${username}&password=${password}&fptoken=${token}" -c ${cookiesFile} https://www.dnsexit.com/Login.sv > /tmp/dnsExitLoginPage.html
+token="10d56a723037e3ff850edb5ce6878dd9^1920:1080|1855:1056|24:24^^180"
+curl -L -s -D - -X POST --data "currenttries=0&fptoken=${token}&loggedIn=&topage=&login=${username}&password=${password}&button=Login" -b ${cookiesFile} -c ${cookiesFile} "https://www.dnsexit.com/Login.sv" > "/tmp/dnsExitLoginPage.html"
 
 # get dnsExit domain
 getDnsExitDomain baseDomain "$certbotDomain" "/tmp/dnsExitLoginPage.html"
