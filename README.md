@@ -13,5 +13,10 @@ This a hook for the Let's Encrypt ACME client dehydrated (formerly letsencrypt.s
 - Call the certbot command using the required parameters (renew example)
   - certbot renew --force-renew --break-my-certs --staging --agree-tos --email youremail@server.com --manual --preferred-challenges dns  --manual-auth-hook ./authenticator.sh --manual-cleanup-hook ./cleanup.sh
 
+**How to test it**
+
+- There are two test script that will ask for your DNSExit credentials that will call the main scripts:
+  - testAuthenticator.sh
+  - testCleanup.sh
 
 I hope this script is useful for the community, if you have any comments or suggestions contact me
