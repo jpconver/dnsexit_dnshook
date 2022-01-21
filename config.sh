@@ -1,3 +1,3 @@
 # dnsExit login credentials
-username="${DNSEXIT_USERNAME}"
-password="${DNSEXIT_PASSWORD}"
+dnsExitToken="${DNSEXIT_TOKEN}"
+dnsExitDomainList="${DNSEXIT_BASE_DOMAINS}"

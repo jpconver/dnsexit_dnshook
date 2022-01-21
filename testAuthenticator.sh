@@ -3,14 +3,14 @@
 echo "Test Authenticator Script"
 
 # ask for user input
-read -p 'DNSExit username: ' username
-read -p 'DNSExit password: ' password
-read -p 'DNSExit Domain:: ' domain
+read -p 'DNSExit api-key:: ' dnsExitToken
+read -p 'DNSExit Domain List:: ' dnsExitDomainList
+read -p 'CERTBOT Domain:: ' certbotDomain
 
-# export variables for authenticator
-export DNSEXIT_USERNAME=${username}
-export DNSEXIT_PASSWORD=${password}
-export CERTBOT_DOMAIN=${domain}
+# export variables
+export DNSEXIT_TOKEN=${dnsExitToken}
+export DNSEXIT_BASE_DOMAINS=${dnsExitDomainList}
+export CERTBOT_DOMAIN=${certbotDomain}
 export CERTBOT_VALIDATION=jfEVZCbJH_J96HjWXPNGoW0rpolrztrA-arVqPTre8c
 
 # execute authenticator

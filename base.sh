@@ -4,22 +4,12 @@ function getDnsExitDomain () {
 
   local resultVar=$1
   local certbotDomain=$2
-  local domainListPage=$3
+  local domainList=$3
 
-  # get comma separated list of domains in dnseExit
-  regex="href=\'/DomainPanel.sv\\?domainname=\K(.*?)'"
-  grepCommand="grep -Po ${regex} ${domainListPage}"
-
-  # remove quotes, carry returns and the last character
-  domains=`${grepCommand}`
-  domains="${domains//"'"/,}"
-  domains="${domains//$'\n'/}"
-  domains="${domains%?}"
-
-  # convert dnsExit domain list to map
+  # convert domain list to map
   declare -A dnsExitDomainMap
   IFS=","
-  for domain in $domains
+  for domain in $domainList
   do
     dnsExitDomainMap[$domain]=1
   done
@@ -61,7 +51,7 @@ function getDnsExitDomain () {
   fi
 
   if [[ ${dnsExitMatchingDomainFound} == false ]]; then
-    echo "no matching domain found in dnsExit for: certbotDomain"
+    echo "no matching domain found in dnsExit for: ${certbotDomain}"
     dnsExitMatchingDomain="" 
   fi
 

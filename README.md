@@ -6,7 +6,9 @@ This a hook for the Let's Encrypt ACME client dehydrated (formerly letsencrypt.s
 - base.sh (this is an utility file that is used by authorization.sh and cleanup.sh scripts)
 - authorization.sh (this script add the dns text record to dnsexit and check that it was succesfully added)
 - cleanup.sh (this script delete the created dns txt record)
-- config.sh (this script is for setting the dnsExit.com credentials)
+- config.sh (this script is for setting the dnsExit.com access information)
+ - dnsExitToken: Token provided by dns exit
+ - dnsExitDomainList: List of possible base domains that you want to process
 
 **How to use it**
 - Update the config.sh with your dnsexit.com credentials

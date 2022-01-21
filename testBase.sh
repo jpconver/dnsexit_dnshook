@@ -10,7 +10,7 @@ currentPath="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 function checkDomain () {
   local certbotDomain=$1
   local dnsExitDomain=$2
-  getDnsExitDomain baseDomain $certbotDomain "$currentPath/dnsExitLoginPage.html"
+  getDnsExitDomain baseDomain $certbotDomain "mydomain.com,poroto.com,qa.mydomain.com,test.qa.mydomain.com"
   if [ $baseDomain = $dnsExitDomain ]; then
     echo "success: certbot domain: $certbotDomain match with dnsExit domain: $dnsExitDomain"
   else
@@ -22,10 +22,3 @@ checkDomain "qa.mydomain.com" "qa.mydomain.com"
 checkDomain "test.qa.mydomain.com" "test.qa.mydomain.com"
 checkDomain "test1.mydomain.com" "mydomain.com"
 checkDomain "test1.test2.test3.mydomain.com" "mydomain.com"
-
-
-
-
-
-
-

@@ -1,37 +1,41 @@
 #!/bin/bash -ex
 
-# load config
-. "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/config.sh"
+# load base
 . "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/base.sh"
 
 # certbot environment variables
+dnsExitToken="${DNSEXIT_TOKEN}"
+dnsExitBaseDomains="${DNSEXIT_BASE_DOMAINS}"
 certbotDomain="${CERTBOT_DOMAIN}"
 validation="${CERTBOT_VALIDATION}"
-cookiesFile="/tmp/dnsExitCookies.txt"
+filename="update.json"
 
-# get login page
-curl -s -D - -X GET -c ${cookiesFile} "https://www.dnsexit.com/Direct.sv?cmd=login" > "/tmp/dnsExitLoginForm.html"
+# get matching dnsExit base domain from certbot provided domain
+getDnsExitDomain dnsExitBaseDomain "${certbotDomain}" "${dnsExitBaseDomains}"
 
-# login
-token="10d56a723037e3ff850edb5ce6878dd9^1920:1080|1855:1056|24:24^^180"
-curl -L -s -D - -X POST --data "currenttries=0&fptoken=${token}&loggedIn=&topage=&login=${username}&password=${password}&button=Login" -b ${cookiesFile} -c ${cookiesFile} "https://www.dnsexit.com/Login.sv" > "/tmp/dnsExitLoginPage.html"
+json=$(cat <<-END
+  {
+    "apikey": "${dnsExitToken}",
+    "domain": "${dnsExitBaseDomain}",
+    "add": {
+      "type": "TXT",
+      "name": "_acme-challenge.${certbotDomain}",
+      "content": "${validation}",
+      "ttl": 3600,
+      "overwrite": true
+    }
+  }
+END
+) 
+# write json file
+echo "${json}" > ${filename}
 
-# get dnsExit domain
-getDnsExitDomain baseDomain "$certbotDomain" "/tmp/dnsExitLoginPage.html"
+# save txt record
+curl  -H "Content-Type: application/json" --data @${filename} https://api.dnsexit.com/dns/
 
-# open domain information
-curl -s -D - -X GET -c ${cookiesFile} -b ${cookiesFile} "https://www.dnsexit.com/Direct.sv?cmd=userShowDns&domainname=${baseDomain}" > /tmp/dnsExitDomainPage.html
-
-# open edit add txt dns
-curl -s -D - -X GET -c ${cookiesFile} -b ${cookiesFile} "https://www.dnsexit.com/Direct.sv?cmd=userDnsTXT&actioncode=13" > /tmp/dnsExitEditTxtPage.html
-
-# add txt dns
+# txt dns
 txtName="_acme-challenge.${certbotDomain}"
-txtValue="${CERTBOT_VALIDATION}"
-curl -s -D - -X POST -c ${cookiesFile} -b ${cookiesFile} --data "actioncode=13&button=Add+TXT&position=0&taskcode=1&ttl_hour=8&ttl_minute=0&txt=${txtName}&TXT+Value=${txtValue}" "https://www.dnsexit.com/Direct.sv?cmd=userDnsTXT" > /tmp/dnsExitAddTxtPage.html
-
-# save changes
-curl -s -D - -X GET -c ${cookiesFile} -b ${cookiesFile} "https://www.dnsexit.com/Direct.sv?cmd=userShowDns&actioncode=2" > /tmp/dnsExitSaveChanges.html
+txtValue="${validation}"
 
 # check that dns change was applied
 timer=0
@@ -47,6 +51,6 @@ until dig -t txt ${txtName} | grep ${txtValue} 2>&1 > /dev/null; do
   fi
 done
 
-# cleanup
-rm /tmp/dnsExit*.*
+rm ${filename}
+
 exit 0
