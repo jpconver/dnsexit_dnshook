@@ -1,5 +1,8 @@
 #!/bin/bash -ex
 
+# load config
+. "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/config.sh"
+
 # load base
 . "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/base.sh"
 
