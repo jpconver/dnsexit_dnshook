@@ -18,6 +18,7 @@ function getDnsExitDomain () {
   unset dnsExitMatchingDomain
   if [ ! -z ${dnsExitDomainMap[$certbotDomain]:-} ]; then
     dnsExitMatchingDomain="$certbotDomain"
+    dnsExitMatchingDomainFound=true
   fi
 
   # if we were unable to match the domain using exact match then try to match with its variants (for subdomains)
